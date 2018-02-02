@@ -2,7 +2,9 @@
 <html>
     <head></head>
     <body>
-        <img src="" alt="qr" id="qr">
+        <img src="" alt="wait for it" id="qr">
+
+        <script src="/socket.io/socket.io.js"></script>
 
         <script>
             function changeImg() {
@@ -12,7 +14,6 @@
                 xhr.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         let resp = this.responseText;
-                        console.log(resp);
                         qrimg.setAttribute('src', resp);
                     }
                 };
@@ -21,7 +22,16 @@
                 xhr.send();
             }
 
-            setInterval(changeImg, 2000);
-        </script>
+        
+            let qrimg = document.getElementById('qr');
+            const socket = io();
+            
+            socket.on('qrcode', function(res) {
+                console.log('received qr via ws');
+                qrimg.setAttribute('src', res);
+            });
+        
+            // setInterval(changeImg, 2000);
+        </script>   
     </body>
 </html>
