@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <img src="" alt="qr" id="qr">
+
+        <script>
+            function changeImg() {
+                let qrimg = document.getElementById('qr');
+
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let resp = this.responseText;
+                        console.log(resp);
+                        qrimg.setAttribute('src', resp);
+                    }
+                };
+
+                xhr.open('GET', 'qr');
+                xhr.send();
+            }
+
+            setInterval(changeImg, 2000);
+        </script>
+    </body>
+</html>
